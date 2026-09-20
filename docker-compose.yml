@@ -1,0 +1,45 @@
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/express:21.3.0-xe
+    container_name: oracledb
+    environment:
+      ORACLE_PWD: ${ORACLE_PWD}
+      ORACLE_CHARACTERSET: AL32UTF8
+    ports:
+      - "1522:1521"   # host 1522 -> container 1521
+      # - "5500:5500"   # EM Express (optional)
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "/opt/oracle/checkDBStatus.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    networks:
+      - oracle-net
+
+  ords:
+    image: container-registry.oracle.com/database/ords:latest
+    container_name: ords
+    depends_on:
+      oracle-db:
+        condition: service_healthy
+    environment:
+      # Still 1521: this is container-to-container, not the host port
+      ORACLE_PWD: ${ORACLE_PWD}
+      ORACLE_USER_PWD: ${ORACLE_PWD}
+      CONN_STRING: oracle-db:1521/XEPDB1
+    ports:
+      - "8181:8080"
+    volumes:
+      - ords-config:/etc/ords/config
+    networks:
+      - oracle-net
+
+volumes:
+  oracle-data:
+  ords-config:
+
+networks:
+  oracle-net:
