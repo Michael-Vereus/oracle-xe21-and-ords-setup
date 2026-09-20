@@ -49,6 +49,10 @@ Log in with the user from `create-user.sql` (default: `DEVUSER` / `Dev_1234`).
 
 Host `localhost` | Port `1522` | Service name `XEPDB1`
 
+**5. Buka SQL Developer Web**
+
+Tinggal jalanin script create-tables.sql yang ada di folder sql-akademik + seed.sql untuk ngisi datanya
+
 ## Stop / reset
 
 ```bash
