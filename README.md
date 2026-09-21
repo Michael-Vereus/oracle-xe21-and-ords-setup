@@ -60,6 +60,10 @@ docker compose down       # Cuma nge stop container, datamu masi aman soale volu
 docker compose down -v    # iki bahaya literally volume mu kehapus mati kamu
 ```
 
+## After Shutdown / Reboot 
+
+jadi docker compose ini ngga aku buat untuk auto nyala setelah reboot / shutdown biar engga makan memory jadi kalian perlu nyalain lagi manual via command `docker compose up -d`. Tenang aja dia ngga bakal buat container baru selama container lama masih ada dia bakal ngestart container yg lama itu.
+
 ## License
 
 The files in this repo are released under the [MIT License](LICENSE).
